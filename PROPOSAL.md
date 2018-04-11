@@ -1,4 +1,4 @@
-# Project Proposal
+# Introduction
 So I have always wanted to try my hand at procedural generation. I thought this would be a good opportunity to explore it. Back in my very first CS class at my community college, one of the options for our final project was a proceduraly generated and seeded tilemap of different land tiles something sort of like [this](https://gamedev.stackexchange.com/questions/79049/generating-tile-map). Basically you seed it with a few random tiles and then it builds the map with some simple probability mechanisms so you get chunks of similar land. Anyway this is probably too simple for this project and I wouldn't know how to extend it and make it interesting.
 
 # Actual Proposal
