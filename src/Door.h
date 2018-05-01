@@ -9,6 +9,7 @@ public:
 	void setImage(ofImage image); //sets image of the door
 	void setPosition(ofVec2f pos); //sets position of the door
 	ofVec2f getPosition(); //returns position of the door
+
 	void draw();
 	static const int DOOR_WIDTH = 155;
 	static const int DOOR_HEIGHT = 125;
