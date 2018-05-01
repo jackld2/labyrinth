@@ -25,7 +25,27 @@ I plan on keeping the game in a 1024x1024 window to keep the square shape of the
 ## Labyrinth with rooms and random generation
 The last thing I want to start this week is to create a labyrinth object that generates new rooms every time you go in a specific direction. There will be randomized weapons, monsters, and hopefully random backgrounds. 
 
+<<<<<<< HEAD
 # Week 2 Update Report:
+=======
+# Week 2 Update Report: 4/29
+I have learned that making a game without a game engine takes a large amount of work. From making hitboxes/barriers to simple physics, it is a lot of work. I have forced the game to run in a 1920x1080 window at 60fps for my own sanity. Of course it would be ideal for the game to resize to the window, but the HUD and UI would take even more work to implement.
+
+After much thought on how to create enemies with some type of intelligence, I created a simple solution. Monsters move in the same way that the player moves. It is based on 4 boolean direction values. UP, DOWN, LEFT, RIGHT. As the player presses WASD these bools adjust accordingly. The monster operates with these same bools but I found that randomly generating a sequence of 4 bools creates enough random movement to give the monsters a bit of life. They change direction every time they shoot, and the monster shoots every time they move a given distance.
+
+There are two major flaws in this AI without a bit of fixing however. First, a randomly generated string of 4 bools has a 1/16 chance of producing 4 falses, which means the monster is stuck. Since direction change depends on the monster shooting and shooting depends on moving, you can see that this causes a problem. Monsters would also become stuck if they run into a wall. Fortunatley, fixing this was simple by adding a distance_moved variable to each monster, and implementing an isFroze() boolean function that is called during every monster update. The monster fires at the player with pretty decent accuracy by some simple vector subtraction. Normalize(PlayersCurrentPosition - MonsterPosition) yeilds a direction vector straight from the monster to the player, which is then scaled and modified for speed.
+
+Another thing that I added was momentum to the bullets from both the player and the monsters. The players current direction and speed will be added to the bullets direction and speed during firing. It works incredibly well and adds a level of polish to the player control. I decided to remove backwards momentum subtraction from bullets due to bullets traveling and super slow speeds and sometimes even getting stuck in mid-air. However, if you run forward and shoot, your bullet travels faster, and if you run sideways and shoot, your bullets also have your sideways momentum.
+
+Now for the main point of this game: the random generation. I implemented an array of rooms. Each room has a coordinate based on a simple x,y plane. For example, the starting room is (0,0). Now, the player can move in any direction, up,down,left,right. If they choose to go up frome the starting room, the array is searched for (0,1). If it exists, it is loaded. If not, the rooms is entirely randomly generated and added to the array of rooms. This means that there is a potentially infinite amount of rooms in the game (before you run out of memory), and no two rooms will be alike.
+
+Each room generates monster, each with random speeds, bullet speeds, bullet fire rates, damages, monster sizes, and bullet sizes. Each room also may spawn a weapon with the same random attributes (speed, bullet size, damage). The player weapons also have a firing ammo system that limits the amount of bullets that can be in the room which is also randomly generated. This is displayed by the HUD on the right that shows the amount of bullets you can fire which dynamically changes with how many bullets are in the room. 
+
+I also implemented a map for the player to see what room they are in, and how many rooms they have explored. There is total continutity between rooms, meaning that if you drop a weapon or shoot a bullet in room (0,0) or example, and come back to in 10 rooms later, that bullet or weapon will still be there waiting for you.
+
+My goal with this game was to create something that felt kind of large and infinite with simple tricks like random generation and rooms. I think I succeeded to some degree. However, another goal was to make the code extremely modular. My randomization functions can be tuned at any time to play with literally every aspect of the game. Even the images of the rooms, bullets, monsters, and weapons can be randomly generated if you wanted to add many different pictures.
+
+>>>>>>> acc5afb7d09c922f2e9755ebe60c2161cca5395f
 
 
 

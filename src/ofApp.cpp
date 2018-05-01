@@ -5,7 +5,6 @@
 void labyrinthGame::setup(){
 	rooms_ = std::vector<Room>();
 	background_img.load("background.png");
-	bullet_img.load("bullet.png");
 	player_img.load("player.png");
 	weapon_img.load("weapon.png");
 	monster_img.load("monster.png");
@@ -31,7 +30,6 @@ void labyrinthGame::update(){
 
 //--------------------------------------------------------------
 void labyrinthGame::draw(){
-	
 	if (current_state_ == START) {
 		title_img.draw(0, 0);
 	}

@@ -15,7 +15,6 @@ public:
 	Bullet getBullet();
 	int getBulletMax();
 	bool isRealWeapon(); //Verifys that weapon has a bullet assocaited with it. (For starting conditions of player)
-	void randomize(); 
 	static const int WEAPON_HEIGHT = 100;
 	static const int WEAPON_WIDTH = 100;
 

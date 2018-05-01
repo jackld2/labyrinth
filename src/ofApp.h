@@ -49,6 +49,11 @@ private:
 	ofImage monster_img;
 	ofImage title_img;
 	ofTrueTypeFont gamefont_;
+	Player player_;
+	Room* current_room_;
+	std::vector<Room> rooms_;
+	ofVec2f current_coordinate_;
+
 	const std::string MAP_MESSAGE = "PRESS M FOR MAP";
 	const std::string ESCAPE_MESSAGE = "PRESS ESC TO EXIT";
 	const std::string PLAYER_MESSAGE = "PLAYER";
@@ -60,14 +65,6 @@ private:
 	const std::string FULL_BAR_MESSAGE = "FULL";
 	const int HEALTH_BAR_LENGTH = 200;
 	
-
-	Bullet bullet_;
-
-	Player player_;
-	Room* current_room_;
-	std::vector<Room> rooms_;
-	ofVec2f current_coordinate_;
-	std::vector<Weapon> game_weapons_;
 
 	
 	

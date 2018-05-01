@@ -11,16 +11,13 @@ Bullet::Bullet(int damage, int speed, int size, int height) {
 	speed_ = speed;
 	size_ = size;
 	cardinal_direction_ = -1;
-
 }
-
 
 Bullet::~Bullet() {
 }
 
 void Bullet::setImage(ofImage image) {
 	bullet_image_ = image;
-	
 }
 
 ofImage Bullet::getImage() {
@@ -41,12 +38,6 @@ int Bullet::getBulletDamage() {
 
 int Bullet::getBulletSpeed() {
 	return speed_;
-}
-
-void Bullet::setDirection(int cardinal) {
-	
-	cardinal_direction_ = cardinal;
-	bullet_image_.rotate90(cardinal_direction_); //0 deg rotation for north, 90 deg rotation for east, 180 deg rotation for south and 270 deg rotation for west
 }
 
 void Bullet::setVectorDirection(ofVec2f direction) {
@@ -70,23 +61,7 @@ void Bullet::setMomentumVector(ofVec2f momentum_vector) {
 }
 
 void Bullet::draw() {
-	
 	bullet_image_.draw(bullet_position_.x - size_ / 2, bullet_position_.y - size_ / 2, size_, size_);
-}
-
-void Bullet::update() {
-	if (cardinal_direction_ == 1) {
-		bullet_position_.x += speed_;
-	}
-	if (cardinal_direction_ == 3) {
-		bullet_position_.x -= speed_;
-	}
-	if (cardinal_direction_ == 0) {
-		bullet_position_.y -= speed_;
-	}
-	if (cardinal_direction_ == 2) {
-		bullet_position_.y += speed_;
-	}
 }
 
 void Bullet::bulletUpdate() {
