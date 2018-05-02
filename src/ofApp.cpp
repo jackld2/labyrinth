@@ -3,28 +3,27 @@
 
 //--------------------------------------------------------------
 void labyrinthGame::setup(){
-	rooms_ = std::vector<Room>();
-	background_img.load("background.png");
-	player_img.load("player.png");
-	weapon_img.load("weapon.png");
-	monster_img.load("monster.png");
-	title_img.load("title.png");
+	title_img = ImageLoad::getTitleScreenImage();
+	player_img = ImageLoad::getPlayerImage();
 	gamefont_.load("8-BIT WONDER.ttf", 15);
-	
+	rooms_ = std::vector<Room>();
 	player_ = Player();
 	player_.setImage(&player_img);
-	generateRoom(ofVec2f(0,0));
+	win_coordinate_ = randomMapPos();
+	rooms_.push_back(generateStartRoom());
 	current_room_ = &rooms_[0];
 	current_room_->addPlayer(&player_);
 	ofSetFrameRate(60);
 	ofSetBackgroundColor(0, 0, 0);
-	
 }
 
 //--------------------------------------------------------------
 void labyrinthGame::update(){
 	if (current_state_ == IN_PROGRESS) {
 		current_room_->update();
+	}
+	if (player_.getHealthFraction() <= 0 && player_mode_ == NORMAL_MODE) {
+		current_state_ = DEATH;
 	}
 }
 
@@ -41,15 +40,28 @@ void labyrinthGame::draw(){
 		drawMap();
 	}
 	if (current_state_ == DEATH) {
+		//Prints three death messages vertically stacked, at the given coordinates
+		gamefont_.drawString(DEATH_MESSAGE, 900, 540);
+		gamefont_.drawString(RESTART_MESSAGE, 775, 600);
+		gamefont_.drawString(ESCAPE_MESSAGE, 840, 630);
+	}
+	if (current_state_ == WIN) {
+		//Prints three win messages vertically stacked, at the given coordinates
+		gamefont_.drawString(WIN_MESSAGE, 840, 540);
+		gamefont_.drawString(RESTART_MESSAGE, 775, 600);
+		gamefont_.drawString(ESCAPE_MESSAGE, 840, 630);
 	}
 }
 
 //--------------------------------------------------------------
 void labyrinthGame::keyPressed(int key){
 	int upper_key = toupper(key);
-	if (current_state_ == START) {
-		if ((upper_key == ' ')) {
+	if (upper_key == ' ') {
+		if (current_state_ == START) {
 			current_state_ = IN_PROGRESS;
+		}
+		if ((current_state_ == DEATH) || (current_state_ == WIN)) {
+			reset();
 		}
 	}
 	if (upper_key == 'W') {
@@ -84,7 +96,7 @@ void labyrinthGame::keyPressed(int key){
 		current_state_ = MAP;
 	}
 	if (upper_key == 'E') {
-		if (current_room_->interactDoor() != -1) {
+		if (current_room_->interactDoor() != -1 && (current_room_->getMonsters().size() <= 0 || player_mode_ == PRESENTATION_MODE)) {
 			changeRooms(current_room_->interactDoor());
 		}
 		else {
@@ -94,7 +106,12 @@ void labyrinthGame::keyPressed(int key){
 	if (upper_key == 'K') {
 		ofToggleFullscreen();
 	}
-
+	if (upper_key == 'P') {
+		player_mode_ = PRESENTATION_MODE;
+	}
+	if (upper_key == 'O') {
+		player_mode_ = NORMAL_MODE;
+	}
 }
 
 //--------------------------------------------------------------
@@ -118,56 +135,17 @@ void labyrinthGame::keyReleased(int key){
 	}
 }
 
-void labyrinthGame::generateRoom(ofVec2f coordinate) {
-	Room room = Room();
-	room.setMapCoordinate(coordinate);
-	room.setImage(ImageLoad::getBGImage());
-	room.putWeapon(generateWeapon());
-	room.setMonsters(generateMonsters());
-	rooms_.push_back(room);
-}
-
-Weapon labyrinthGame::generateWeapon() {
-	Weapon weapon = Weapon(generateWeaponBullet(), randomBulletMax());
-	weapon.setImage(weapon_img);
-	weapon.setPosition(ofVec2f(randomPositionX(), randomPositionY()));
-	return weapon;
-}
-
-Bullet labyrinthGame::generateWeaponBullet() {
-	int bullet_size = randomBulletSize();
-	Bullet bullet = Bullet(randomDamage(), randomBulletSpeed(), bullet_size, bullet_size);
-	bullet.setImage(ImageLoad::getBulletImage());
-	return bullet;
-}
-
-Bullet labyrinthGame::generateMonsterBullet() {
-	int bullet_size = randomBulletSize();
-	Bullet bullet = Bullet(randomDamage(), randomMonsterBulletSpeed(), bullet_size, bullet_size);
-	bullet.setImage(ImageLoad::getBulletImage());
-	return bullet;
-}
-
-
-std::vector<Monster> labyrinthGame::generateMonsters() {
-	std::vector<Monster> monsters;
-	for (int i = 0; i < randomMonsterAmount(); i++) {
-		monsters.push_back(generateMonster());
-	}
-	return monsters;
-}
-
-Monster labyrinthGame::generateMonster() {
-	int size = randomMonsterSize();
-	Monster monster = Monster(randomMaxHealth(), randomSpeed(), randomMonsterShotSpeed(), generateMonsterBullet(), size, size);
-	monster.setPosition(ofVec2f(randomPositionX(), randomPositionY()));
-	monster.setDirection(randomBool(), randomBool(), randomBool(), randomBool());
-	monster.setImage(monster_img);
-	return monster;
-}
-
-pair<int, int> labyrinthGame::findNextRoomCoord() {
-	return pair<int, int>();
+void labyrinthGame::reset() {
+	rooms_.clear();
+	player_img = ImageLoad::getPlayerImage();
+	player_ = Player();
+	player_.setImage(&player_img);
+	rooms_.push_back(generateStartRoom());
+	win_coordinate_ = randomMapPos();
+	current_room_ = &rooms_[0];
+	current_room_->addPlayer(&player_);
+	current_state_ = IN_PROGRESS;
+	player_mode_ = NORMAL_MODE;
 }
 
 void labyrinthGame::changeRooms(int i) {
@@ -190,11 +168,19 @@ void labyrinthGame::changeRooms(int i) {
 		current_room_ = &rooms_[room_index];
 	}
 	else {
-		generateRoom(next_coordinates);
+		if (willBeBossRoom()) {
+			rooms_.push_back(generateBossRoom(next_coordinates));
+		}
+		else {
+			rooms_.push_back(generateRoom(next_coordinates));
+		}
 		current_room_ = &rooms_[rooms_.size() - 1];
 	}
 	current_room_->addPlayer(&player_);
 	player_.setPlayerPos(current_room_->getNewPlayerPos(i));
+	if (current_room_->getMapCoordinate() == win_coordinate_) {
+		current_state_ = WIN;
+	}
 }
 
 void labyrinthGame::drawMap() {
@@ -202,8 +188,11 @@ void labyrinthGame::drawMap() {
 		int x_coord = ofGetWindowWidth() / 2 + rooms_[i].getMapCoordinate().x * 50;
 		int y_coord = ofGetWindowHeight() / 2 - rooms_[i].getMapCoordinate().y * 50;
 		rooms_[i].getImage().draw(x_coord, y_coord, 45, 45);
+		if (rooms_[i].getWeapons().size() != 0) {
+			rooms_[i].getWeapons()[0].getImage().draw(x_coord, y_coord, 45, 45); //draws the first weapon in the room array over the room on the map
+		}
 		if (rooms_[i].hasPlayer()) {
-			player_img.draw(x_coord, y_coord, 45, 45);
+			player_img.draw(x_coord, y_coord, 45, 45); // draws the player image in the current room
 		}
 	}
 }
@@ -213,7 +202,9 @@ void labyrinthGame::drawHUD() {
 	gamefont_.drawString(ESCAPE_MESSAGE, 30, 150);
 	ofSetColor(255, 255, 255);
 	std::string current_coordinate = "(" + to_string(current_room_->getMapCoordinate().x) + ", " + to_string(current_room_->getMapCoordinate().y) + ")";
+	std::string win_coordinate = "(" + to_string(win_coordinate_.x) + ", " + to_string(win_coordinate_.y) + ")";
 	ofDrawBitmapString(current_coordinate, 10, 10);
+	ofDrawBitmapString(win_coordinate, 10, 30);
 	if (player_.hasWeapon()) {
 		drawBulletHUD();
 		drawWeaponHUD();
@@ -225,11 +216,17 @@ void labyrinthGame::drawHUD() {
 void labyrinthGame::drawBulletHUD() {
 	int bullets_left = player_.getWeapon().getBulletMax() - current_room_->playerBulletsInRoom();
 	Bullet player_bullet = player_.getWeapon().getBullet();
-	gamefont_.drawString("*" + to_string(bullets_left), 1840, 40); //Placing number of bullets left at (1840, 40)
+	gamefont_.drawString("*" + to_string(bullets_left), 1830, 40); //Placing number of bullets left at (1840, 40)
 	int shift = 50; //Initial Y coordinate first bullet is drawn at
 	for (int i = 0; i < bullets_left; i++) {
-		player_bullet.getImage().draw(1800, shift, player_bullet.getSize(), player_bullet.getSize()); //Drawing the bullet images, starting at (1800, 50) and dynamically spacing with bullet size + 5 to Y.
-		shift += player_bullet.getSize() + 5;
+		if (shift < 1000) {
+			player_bullet.getImage().draw(1800, shift, player_bullet.getSize(), player_bullet.getSize()); //Drawing the bullet images, starting at (1800, 50) and dynamically spacing with bullet size + 5 to Y.
+			shift += player_bullet.getSize() + 5;
+		}
+		else {
+			player_bullet.getImage().draw(1850, shift - 950, player_bullet.getSize(), player_bullet.getSize());
+			shift += player_bullet.getSize() + 5;
+		}
 	}
 }
 

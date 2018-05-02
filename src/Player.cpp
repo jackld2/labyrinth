@@ -5,8 +5,8 @@
 Player::Player() {
 	position_.x = ofGetWidth() / 2;
 	position_.y = ofGetHeight() / 2;
-	health_ = 100;
-	max_health_ = 100;
+	health_ = 150;
+	max_health_ = 150;
 	width_ = 80;
 	height_ = 80;
 	speed_ = 10;
@@ -19,12 +19,10 @@ Player::Player() {
 
 	current_cardinal_ = 1;
 	previous_cardinal_ = 1;
-	
 }
 
 void Player::setImage(ofImage *image) {
 	player_image = image;
-
 }
 
 void Player::draw() {

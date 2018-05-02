@@ -103,6 +103,10 @@ void Room::putWeapon(Weapon weapon) {
 	room_weapons_.push_back(weapon);
 }
 
+std::vector<Weapon> Room::getWeapons() {
+	return room_weapons_;
+}
+
 void Room::placeDoors() {
 
 	ofImage door_image;
@@ -169,7 +173,7 @@ void Room::updatePlayerBullets() {
 void Room::updatePlayerHits() {
 	int bullet_index = -1;
 	for (int i = 0; i < monster_bullets_.size(); i++) {
-		if (player_->getPlayerPos().distance(monster_bullets_[i].getBulletPos()) < (player_->getHeight() / 2) + (monster_bullets_[i].getSize() / 2)) {
+		if (player_->getPlayerPos().distance(monster_bullets_[i].getBulletPos()) < (player_->getHeight() / 3) + (monster_bullets_[i].getSize() / 2)) {
 			player_->removeHealth(monster_bullets_[i].getBulletDamage());
 			bullet_index = i;
 		}
@@ -369,6 +373,10 @@ double Room::getMonstersHealthFraction() {
 		current_health_total += monster.getHealth();
 	}
 	return (double)current_health_total / max_monsters_health;
+}
+
+std::vector<Monster> Room::getMonsters() {
+	return monsters_;
 }
 
 

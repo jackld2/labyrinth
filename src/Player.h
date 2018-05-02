@@ -6,14 +6,17 @@ class Player
 {
 public:
 	Player();
-	void setImage(ofImage *image);
+	void setImage(ofImage *image); //sets the image pointer of the player
 	void draw(); //Draws the player at the current position
-	void updateUp();
+	
+	//Updates the player's movement in the up, down, left, right directions (using bools)
+	void updateUp(); 
 	void updateDown();
 	void updateLeft();
 	void updateRight();
-	void updateCardinal();
-	bool hasWeapon(); //Tells if the player currently has a real weapon
+
+	void updateCardinal(); //Updates the cardinal direction of the player (used for rotating image)
+	bool hasWeapon(); //Tells if the player currently has a weapon
 	Weapon getWeapon(); //returns the player's weapon
 	double getHealthFraction(); // returns the current health of the player
 	void removeHealth(int health); //removes a given amount of health from the player
@@ -28,11 +31,11 @@ public:
 	Weapon dropWeapon(); //Returns the player's weapon
 	void setWeapon(Weapon weapon); //Sets the player's weapon
 
-	void setDirUp(bool value);
-	void setDirDown(bool value);
-	void setDirLeft(bool value);
-	void setDirRight(bool value);
-	ofVec2f getMomentumVector();
+	void setDirUp(bool value); //sets bool up_
+	void setDirDown(bool value); //sets bool down_
+	void setDirLeft(bool value); //sets bool left_
+	void setDirRight(bool value); //sets bool right_
+	ofVec2f getMomentumVector(); //returns the player's current momentum as a vector (used to modify bullet direction and speed based on momentum)
 
 private:
 	bool has_weapon_;

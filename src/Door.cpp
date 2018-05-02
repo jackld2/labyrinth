@@ -1,15 +1,12 @@
 #include "Door.h"
 
-
-
 Door::Door() {}
 
 Door::Door(int cardinal) {
 	cardinal_ = cardinal;
 }
 
-Door::~Door() {
-}
+Door::~Door() {}
 
 void Door::setImage(ofImage image) {
 	image_ = image;

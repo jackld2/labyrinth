@@ -30,21 +30,18 @@ public:
 	void updateDown(); //updates the monsters direction down
 	void updateLeft(); //updates the monsters direction left
 	void updateRight(); //updates the monsters direction right
-	void updateCardinal();
+	void updateCardinal(); //updates the cardinal direction of the monster
 
+	//sets up_, down_, left_, and right_
 	void setDirUp(bool value);
 	void setDirDown(bool value);
 	void setDirLeft(bool value);
 	void setDirRight(bool value);
-	void setDirection(bool up, bool down, bool left, bool right);
-	ofVec2f getMomentumVector();
 
-
-
+	void setDirection(bool up, bool down, bool left, bool right); //sets all four directions
+	ofVec2f getMomentumVector();  //returns the current momentum vector of the monster based on direction and speed
 
 private:
-	
-
 	ofVec2f position_;
 	ofImage monster_image_;
 	Bullet bullet_;

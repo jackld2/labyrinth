@@ -13,9 +13,9 @@ public:
 	int getBulletDamage(); //Returns the damage of the bullet
 	int getBulletSpeed(); //Returns the speed of the bullet
 	void setVectorDirection(ofVec2f direction); //testing
-	void setMomentumVector(ofVec2f momentum_vector);
+	void setMomentumVector(ofVec2f momentum_vector); //sets the momentum vector to be added to the bullet's trajectory
 	void draw(); //Draws the bullet
-	void bulletUpdate(); //Updates the bullet in
+	void bulletUpdate(); //Updates the bullets position based on momentum and initial fire direction
 	int getSize(); //returns the size of the bullet (bullets must be square images)
 
 private:

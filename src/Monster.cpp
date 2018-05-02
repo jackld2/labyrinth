@@ -1,8 +1,6 @@
 #include "Monster.h"
 #include "Bullet.h"
 
-
-
 Monster::Monster() {}
 
 Monster::Monster(int max_health, int speed, int shot_speed, Bullet bullet, int height, int width ) {
@@ -23,8 +21,7 @@ Monster::Monster(int max_health, int speed, int shot_speed, Bullet bullet, int h
 	previous_cardinal_ = 1;
 }
 
-ofVec2f Monster::getPosition()
-{
+ofVec2f Monster::getPosition() {
 	return position_;
 }
 

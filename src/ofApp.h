@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "Randomize.h"
 #include "ImageLoad.h"
+#include "Generate.h"
 
 class labyrinthGame : public ofBaseApp{
 
@@ -13,46 +14,43 @@ class labyrinthGame : public ofBaseApp{
 		IN_PROGRESS,
 		MAP,
 		DEATH,
+		WIN,
+	};
+	enum PlayerMode {
+		NORMAL_MODE,
+		PRESENTATION_MODE
 	};
 
 	public:
+		//standard openframeworks functions
 		void setup();
 		void update();
 		void draw();
-
 		void keyPressed(int key);
 		void keyReleased(int key); 
 
-		void generateRoom(ofVec2f coordinate);
-		Weapon generateWeapon();
-		Bullet generateWeaponBullet();
-		Bullet generateMonsterBullet();
-		std::vector<Monster> generateMonsters();
-		Monster generateMonster();
-		pair<int, int> findNextRoomCoord();
+		void reset(); //resets the game 
 		void changeRooms(int i); //Changes rooms according to 'i' which is the cardinal number of the door leaving through
-		void drawMap();
-		void drawHUD();
-		void drawBulletHUD();
-		void drawWeaponHUD();
-		void drawPlayerHealthHUD();
-		void drawMonsterHealthHUD();
+		void drawMap(); //Draws the map of the labyrinth with all of its rooms. PLayer image is drawn on the room the player is currently in
+		void drawHUD(); //Draws the HUD of the game
+		void drawBulletHUD(); //Draws a dynamic representation of bullets left that can be shot by the player
+		void drawWeaponHUD(); //Draws weapon picture and information
+		void drawPlayerHealthHUD(); //Draws player health
+		void drawMonsterHealthHUD(); //Draws monster health (For all monsters: Total remaining health / Total max health)
 
 private:
 	GameState current_state_ = START;
-	bool should_update_ = false;
+	PlayerMode player_mode_ = NORMAL_MODE;
 	int roomExists(ofVec2f coordinate);
 	ofImage player_img;
-	ofImage background_img;
-	ofImage bullet_img;
-	ofImage weapon_img;
-	ofImage monster_img;
 	ofImage title_img;
+	ofVec2f win_coordinate_;
 	ofTrueTypeFont gamefont_;
 	Player player_;
 	Room* current_room_;
 	std::vector<Room> rooms_;
-	ofVec2f current_coordinate_;
+
+	const int HEALTH_BAR_LENGTH = 200;
 
 	const std::string MAP_MESSAGE = "PRESS M FOR MAP";
 	const std::string ESCAPE_MESSAGE = "PRESS ESC TO EXIT";
@@ -63,7 +61,11 @@ private:
 	const std::string DAMAGE_MESSAGE = "DAMAGE";
 	const std::string SPEED_MESSAGE = "SPEED";
 	const std::string FULL_BAR_MESSAGE = "FULL";
-	const int HEALTH_BAR_LENGTH = 200;
+	const std::string WIN_MESSAGE = "YOU FOUND THE END";
+	const std::string DEATH_MESSAGE = "YOU DIED"; 
+	const std::string RESTART_MESSAGE = "PRESS SPACE TO RESTART";
+
+	
 	
 
 	
