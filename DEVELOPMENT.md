@@ -25,9 +25,6 @@ I plan on keeping the game in a 1024x1024 window to keep the square shape of the
 ## Labyrinth with rooms and random generation
 The last thing I want to start this week is to create a labyrinth object that generates new rooms every time you go in a specific direction. There will be randomized weapons, monsters, and hopefully random backgrounds. 
 
-<<<<<<< HEAD
-# Week 2 Update Report:
-=======
 # Week 2 Update Report: 4/29
 I have learned that making a game without a game engine takes a large amount of work. From making hitboxes/barriers to simple physics, it is a lot of work. I have forced the game to run in a 1920x1080 window at 60fps for my own sanity. Of course it would be ideal for the game to resize to the window, but the HUD and UI would take even more work to implement.
 
@@ -45,7 +42,15 @@ I also implemented a map for the player to see what room they are in, and how ma
 
 My goal with this game was to create something that felt kind of large and infinite with simple tricks like random generation and rooms. I think I succeeded to some degree. However, another goal was to make the code extremely modular. My randomization functions can be tuned at any time to play with literally every aspect of the game. Even the images of the rooms, bullets, monsters, and weapons can be randomly generated if you wanted to add many different pictures.
 
->>>>>>> acc5afb7d09c922f2e9755ebe60c2161cca5395f
+# Finishing Up: 05/02/18
+Even making a simple HUD is pretty tedious, at least in openframeworks, but I am happy with the way it turned out. I know we are not supposed to use  'Magic Numbers' but when it comes to placing text and pictures in very specific places, I cannot see it being worth my time to create an int constant for every single coordinate. In any case, the HUD turned out well.
+
+The final features I added was a boss system and a win room. The win room is simple. The map display roughly 800 rooms, so within these 800ish rooms one of them will be set as the 'win' room. If you find this room, you win. However, you must search for it, and you cannot leave a room unless you defeat every monster inside. As for the boss room, there is about a 5% chance of a boss room spawning. Inside this room is a single strong boss, and a weapon that has higher stats than normal. Also, I reduced the probability of weapons spawning in normal rooms to around 30%. 
+
+# Final Words
+
+I think I succeeded with my goal of making the game feel large for what it is, and I believe that I made it extremely modulur, meaning that new systems can be implemented easily, and adding new art assets is literally as easy as adding a text file name to an array, and adjusting an index parameter. You could in theory add hundreds of different weapon images, room images, bullet images, and monster images. No two rooms will ever be the same difficulty or spawn the same weapons (or rather the chances are extremely small). I am happy with what I created and this is probably the most complex program I have ever made. It has been great experience. 
+
 
 
 
