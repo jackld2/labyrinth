@@ -11,11 +11,11 @@ It is simple, just pick up weapons and shoot monsters, your goal is to search fo
 # How to build:
 
 The game runs in open frameworks using ofXGUI, and some other standard openframeworks libraries like ofImage and ofVec2f. There is really not a lot to the game besides that. Just a lot of vector calculations, hitbox checking, and image/text loading. Be sure to include the images in 'bin/data' file to work the game. This game is modular, meaning you can add as many images for weapons, bullets, rooms, and monsters. Put them all in the bin. I reccommend using the following image dimensions.
-Monster Images: 100x100
-Weapon Images: 100x100
-Bullet Images: 100x100
-Player Images: 100x100
-Room Images: 1200x1200 (the traversable room is 1024x1024 with a border for walls, so keep that in mind)
+## Monster Images: 100x100
+## Weapon Images: 100x100
+## Bullet Images: 100x100
+## Player Images: 100x100
+## Room Images: 1200x1200 (the traversable room is 1024x1024 with a border for walls, so keep that in mind)
 The whole has to run in 1920x1080 resolution, so also keep that in mind.
 
 Every file in 'src' is needed in order for this game to run properly. A few files worth noting are 'Generation', 'Randomize', and 'Imageload'.
