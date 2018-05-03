@@ -6,6 +6,12 @@ Labyrinth is a randomly generated, skill based, dungeon crawling, shooting game.
 # How to play the game
 It is simple, just pick up weapons and shoot monsters, your goal is to search for the end room of the labyrinth. When you reach it, you win. All rooms are continuous so leaving objects behind and coming back for them later is fine. This game will generate an infinite amount of rooms, so you can walk in one direction for a very long time. I have not tested how far you can go before the game breaks down, but it is probably a large amount of rooms. Everything is generated in real time as well, the only thing determined beforehand is the coordinate of the final room. Each room is generated as you walk into it. Press 'P' to enter a type of cheat mode where you cannot die and can travel rooms freely without having to kill monsters. Press 'O' to go back to normal mode.
 
+![alt text](https://github.com/uiuc-sp18-cs126/final-project-jackld2/blob/master/bin/data/pic1.png "Example 1")
+
+![alt text](https://github.com/uiuc-sp18-cs126/final-project-jackld2/blob/master/bin/data/pic3.png "Example 2")
+
+![alt text](https://github.com/uiuc-sp18-cs126/final-project-jackld2/blob/master/bin/data/pic2.png "Example 3")
+
 
 
 # How to build:
