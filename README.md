@@ -10,7 +10,7 @@ It is simple, just pick up weapons and shoot monsters, your goal is to search fo
 
 ![alt text](https://github.com/jackld2/labyrinth/blob/master/bin/data/pic3.png "Example 2")
 
-![alt text](https://github.comjackld2/labyrinth/blob/master/bin/data/pic2.png "Example 3")
+![alt text](https://github.com/jackld2/labyrinth/blob/master/bin/data/pic2.png "Example 3")
 
 
 
